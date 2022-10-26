@@ -1,7 +1,7 @@
 use crate::cell::Cell;
 use crate::EVENT_TIMEOUT;
 use anyhow::{anyhow, Result};
-use crossterm::event::{self, Event, KeyCode};
+use crossterm::event::{self, Event};
 use std::path::PathBuf;
 use tui::widgets::ListState;
 
@@ -35,7 +35,7 @@ pub struct App {
 }
 
 impl App {
-    pub fn new(path: PathBuf, sheet: String, row: usize) -> Result<Self> {
+    pub fn new(path: PathBuf, sheet: String) -> Result<Self> {
         let path = std::env::current_dir()?.join(path);
         println!("{path:#?}");
         let mut workbook = Excel::open(&path).unwrap();

@@ -14,10 +14,4 @@ impl Row {
     pub fn new(cells: Vec<Cell>, row_num: usize) -> Self {
         Self { cells, row_num }
     }
-
-    pub fn len(&self) -> usize {
-        let mut len = 0;
-        self.cells.iter().for_each(|c| len += c.value.len());
-        len
-    }
 }
