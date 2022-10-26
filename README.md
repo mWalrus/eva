@@ -1,1 +1,1 @@
-# ExVal: Excel Value Analyzer
+# ExVal: Excel Value Validator
