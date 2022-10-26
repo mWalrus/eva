@@ -18,7 +18,7 @@ impl From<(&DataType, char)> for Cell {
             DataType::String(_) => ("S".into(), Color::Green),
             DataType::Bool(_) => ("B".into(), Color::Yellow),
             DataType::Error(e) => (CET(e.to_owned()).into(), Color::Red),
-            DataType::Empty => ("E".into(), Color::Black),
+            DataType::Empty => ("U".into(), Color::Black),
         };
         Self {
             value,
@@ -31,15 +31,34 @@ impl From<(&DataType, char)> for Cell {
 impl From<CET> for String {
     fn from(e: CET) -> Self {
         let msg = match e.0 {
-            CellErrorType::Div0 => "Div by 0",
-            CellErrorType::NA => "Not available",
-            CellErrorType::Name => "Invalid name",
-            CellErrorType::Null => "Null value",
-            CellErrorType::Num => "Invalid number",
-            CellErrorType::Ref => "Cell ref error",
-            CellErrorType::Value => "Value error",
-            CellErrorType::GettingData => "Get data error",
+            CellErrorType::Div0 => "EA",
+            CellErrorType::NA => "EB",
+            CellErrorType::Name => "EC",
+            CellErrorType::Null => "ED",
+            CellErrorType::Num => "EE",
+            CellErrorType::Ref => "EF",
+            CellErrorType::Value => "EG",
+            CellErrorType::GettingData => "EH",
         };
         String::from(msg)
     }
 }
+
+pub static LEGEND_ITEMS: &[&str] = &[
+    "Regular Types:",
+    "S: String",
+    "I: Int",
+    "F: Float",
+    "B: Bool",
+    "U: Undefined",
+    "",
+    "Errors:",
+    "EA: Div by 0",
+    "EB: Not available",
+    "EC: Invalid name",
+    "ED: Null value",
+    "EE: Invalid number",
+    "EF: Cell ref error",
+    "EG: Value error",
+    "EH: Get data error",
+];

@@ -7,13 +7,14 @@ use crossterm::{
 use std::io;
 use tui::{
     backend::{Backend, CrosstermBackend},
+    layout::{Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Span, Spans},
     widgets::{Block, Borders, List, ListItem},
     Frame, Terminal,
 };
 
-use crate::app::App;
+use crate::{app::App, cell::LEGEND_ITEMS};
 
 pub fn run(mut app: App) -> Result<()> {
     enable_raw_mode()?;
@@ -41,6 +42,11 @@ pub fn run(mut app: App) -> Result<()> {
 }
 
 fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
+    let chunks = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Min(3), Constraint::Length(20)].as_ref())
+        .split(f.size());
+
     let list_items: Vec<ListItem> = app
         .rows
         .iter()
@@ -50,7 +56,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 .iter()
                 .map(|c| {
                     Span::styled(
-                        format!("| ({}{}) {} ", c.col, r.row_num, &c.value),
+                        format!("| ({}{}) {:<2} ", c.col, r.row_num, &c.value),
                         Style::default().fg(c.color),
                     )
                 })
@@ -68,5 +74,18 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 .bg(Color::Indexed(8))
                 .add_modifier(Modifier::BOLD),
         );
-    f.render_stateful_widget(list, f.size(), &mut app.state)
+
+    let legend_items: Vec<ListItem> = LEGEND_ITEMS
+        .iter()
+        .map(|l| {
+            let span = Span::raw(l.to_owned());
+            let spans = Spans::from(vec![span]);
+            ListItem::new(spans)
+        })
+        .collect();
+    let legend_list =
+        List::new(legend_items).block(Block::default().title("Legend").borders(Borders::ALL));
+
+    f.render_stateful_widget(list, chunks[0], &mut app.state);
+    f.render_widget(legend_list, chunks[1]);
 }
