@@ -1,3 +1,3 @@
 # EVa: Excel Value Validator
 
-![demo](./media/demo)
+![demo](./media/demo.png)
