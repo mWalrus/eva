@@ -28,6 +28,10 @@ impl From<&ExKeyEvent> for KeyEvent {
 pub struct ExKeyList {
     pub up: ExKeyEvent,
     pub down: ExKeyEvent,
+    pub jump_up: ExKeyEvent,
+    pub jump_down: ExKeyEvent,
+    pub top: ExKeyEvent,
+    pub bottom: ExKeyEvent,
     pub quit: ExKeyEvent,
 }
 
@@ -40,6 +44,10 @@ impl Default for ExKeyList {
         Self {
             up: ExKeyEvent::new(KeyCode::Char('k'), KeyModifiers::empty()),
             down: ExKeyEvent::new(KeyCode::Char('j'), KeyModifiers::empty()),
+            jump_up: ExKeyEvent::new(KeyCode::BackTab, KeyModifiers::SHIFT),
+            jump_down: ExKeyEvent::new(KeyCode::Tab, KeyModifiers::empty()),
+            top: ExKeyEvent::new(KeyCode::Char('t'), KeyModifiers::empty()),
+            bottom: ExKeyEvent::new(KeyCode::Char('b'), KeyModifiers::empty()),
             quit: ExKeyEvent::new(KeyCode::Char('q'), KeyModifiers::empty()),
         }
     }

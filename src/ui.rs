@@ -67,7 +67,11 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         .collect();
 
     let list = List::new(list_items)
-        .block(Block::default().title("Sheet").borders(Borders::ALL))
+        .block(
+            Block::default()
+                .title(format!("[ {} ]", &*app.file_name))
+                .borders(Borders::ALL),
+        )
         .highlight_symbol(" > ")
         .highlight_style(
             Style::default()

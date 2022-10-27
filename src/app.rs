@@ -27,6 +27,7 @@ impl Default for AppState {
 }
 
 pub struct App {
+    pub file_name: String,
     pub rows: Vec<Row>,
     pub row_count: usize,
     pub col_count: usize,
@@ -58,6 +59,7 @@ impl App {
             let mut state = ListState::default();
             state.select(Some(0));
             return Ok(Self {
+                file_name: path.file_name().unwrap().to_str().unwrap().to_string(),
                 rows,
                 row_count,
                 col_count,
@@ -83,6 +85,14 @@ impl App {
                 self.up();
             } else if key_match(&key, &self.keys.down) {
                 self.down();
+            } else if key_match(&key, &self.keys.jump_up) {
+                self.jump_up();
+            } else if key_match(&key, &self.keys.jump_down) {
+                self.jump_down();
+            } else if key_match(&key, &self.keys.top) {
+                self.top();
+            } else if key_match(&key, &self.keys.bottom) {
+                self.bottom();
             } else if key_match(&key, &self.keys.quit) {
                 return Err(anyhow!("Exit application"));
             }
@@ -92,13 +102,32 @@ impl App {
 
     fn up(&mut self) {
         let selected = self.state.selected().unwrap();
-        self.state.select(Some(selected.saturating_sub(1)))
+        self.state.select(Some(selected.saturating_sub(1)));
     }
 
     fn down(&mut self) {
         let selected = self.state.selected().unwrap();
         self.state
-            .select(Some((selected + 1).min(self.rows.len() - 1)))
+            .select(Some((selected + 1).min(self.rows.len() - 1)));
+    }
+
+    fn jump_up(&mut self) {
+        let selected = self.state.selected().unwrap();
+        self.state.select(Some(selected.saturating_sub(10)));
+    }
+
+    fn jump_down(&mut self) {
+        let selected = self.state.selected().unwrap();
+        self.state
+            .select(Some((selected + 10).min(self.rows.len() - 1)));
+    }
+
+    fn top(&mut self) {
+        self.state.select(Some(0));
+    }
+
+    fn bottom(&mut self) {
+        self.state.select(Some(self.rows.len() - 1));
     }
 
     // fn left(&mut self) {
