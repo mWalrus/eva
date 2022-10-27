@@ -56,7 +56,7 @@ fn ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
                 .iter()
                 .map(|c| {
                     Span::styled(
-                        format!("| ({}{}) {:<2} ", c.col, r.row_num, &c.value),
+                        format!("| ({}{:0>4}) {:<2} ", c.col, r.row_num, &c.value),
                         Style::default().fg(c.color),
                     )
                 })

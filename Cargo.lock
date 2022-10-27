@@ -247,7 +247,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "exval"
+name = "eva"
 version = "0.1.0"
 dependencies = [
  "anyhow",
