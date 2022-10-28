@@ -42,8 +42,8 @@ pub fn key_match(key: &KeyEvent, bind: &ExKeyEvent) -> bool {
 impl Default for ExKeyList {
     fn default() -> Self {
         Self {
-            up: ExKeyEvent::new(KeyCode::Char('k'), KeyModifiers::empty()),
-            down: ExKeyEvent::new(KeyCode::Char('j'), KeyModifiers::empty()),
+            up: ExKeyEvent::new(KeyCode::Up, KeyModifiers::empty()),
+            down: ExKeyEvent::new(KeyCode::Down, KeyModifiers::empty()),
             jump_up: ExKeyEvent::new(KeyCode::BackTab, KeyModifiers::SHIFT),
             jump_down: ExKeyEvent::new(KeyCode::Tab, KeyModifiers::empty()),
             top: ExKeyEvent::new(KeyCode::Char('t'), KeyModifiers::empty()),
